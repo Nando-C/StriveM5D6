@@ -12,8 +12,7 @@ class ProductList extends Component {
             const response = await fetch('http://localhost:3001/products')
             if(response.ok) {
                 const productsList = await response.json()
-                console.log(productsList)
-
+                // console.log(productsList)
                 this.setState({
                     products: productsList
                 })

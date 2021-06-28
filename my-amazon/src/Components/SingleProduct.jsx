@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Card, ListGroup, ListGroupItem, Button, Badge } from 'react-bootstrap'
+import { Card, ListGroup, ListGroupItem, Badge } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 class SingleProduct extends Component {

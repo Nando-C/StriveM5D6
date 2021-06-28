@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Container, Card, ListGroup, ListGroupItem, Badge, Button } from 'react-bootstrap'
+import { Card, ListGroup, Button } from 'react-bootstrap'
 
 class ProductReviews extends Component {
     state = {  
