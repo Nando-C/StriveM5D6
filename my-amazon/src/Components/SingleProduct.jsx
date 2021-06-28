@@ -11,7 +11,7 @@ class SingleProduct extends Component {
             brand: this.props.product.brand, //REQUIRED 	  "imageUrl":"https://drop.ndtv.com/TECH/product_database/images/2152017124957PM_635_nokia_3310.jpeg?downsize=*:420&output-quality=80",
             price: this.props.product.price, //REQUIRED
             category: this.props.product.category, //REQUIRED
-            imageUrl: "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTlplJDPDcl7K04MNiKMFo3bnhKe1x333JPxGaPUTKj1x6WFWA&usqp=CAY"
+            imageUrl: this.props.product.imageUrl
             // "createdAt": "2019-07-19T09:32:10.535Z", //SERVER GENERATED
             // "updatedAt": "2019-07-19T09:32:10.535Z", //SERVER GENERATED
         }
