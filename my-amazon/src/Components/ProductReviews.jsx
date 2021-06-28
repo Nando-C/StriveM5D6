@@ -1,5 +1,7 @@
 import { Component } from "react";
 import { Card, ListGroup, Button } from 'react-bootstrap'
+// import ReviewModal from "./ReviewModal";
+import SingleReview from "./SingleReview";
 
 class ProductReviews extends Component {
     state = {  
@@ -7,50 +9,63 @@ class ProductReviews extends Component {
         isLoading: true
     }
 
-    componentDidMount = async () => {
+    fetchComments = async () => {
         const productID = this.props.productId
         // console.log(this.props.match.params.id)
         // console.log(`http://localhost:3001/products/${productID}`)
-
+    
         try {
             const respComments = await fetch(`http://localhost:3001/reviews/get/${productID}`)
             const commentsList = await respComments.json()
             console.log(commentsList)
-
+    
             this.setState({
                 ...this.state,
                 comments: commentsList,
-                isLoading: false
+                isLoading: false,
+                show: false
             })
         } catch (error) {
             console.log(error)
         }
     }
+
+    componentDidMount = async () => {
+        this.fetchComments()
+    }
+
+    handleShow = () => {
+        this.setState({
+            ...this.state,
+            show: true
+        })
+    }
+
+    handleClose = () => {
+        this.setState({
+            ...this.state,
+            show: false
+        })
+    }
+
     render() {
         return (
             <>
                 <Card className='mb-5' >
-                    <h2 className='my-3'>Reviews</h2>
-                    {console.log(this.state.comments)}
+                    <div>
+                        <h2 className='my-3'>Reviews</h2>
+                        <Button variant="secondary" >
+                            Add Review
+                        </Button>
+                    </div>
+                    {/* {console.log(this.state.comments)} */}
                     {this.state.isloading ? <p>Loading...</p>
                         : <ListGroup className='mb-5 border-0'>
                             {this.state.comments.map(comData =>
-                                <ListGroup.Item className='border-0'>
-                                    <Card>
-                                        <Card.Body>
-                                            <Card.Text>
-                                                " <em>{comData.comment}</em>"
-                                            </Card.Text>
-                                            <Card.Text>
-                                                Rating: <strong>{comData.rate}</strong>
-                                            </Card.Text>
-                                        </Card.Body>
-                                        <div>
-                                            <Button className='m-2' size='sm' variant="primary" onClick={(e) => this.handleShow(e)}>Update</Button>
-                                            <Button className='m-2' size='sm' variant="danger">Delete</Button>
-                                        </div>
-                                    </Card>
-                                </ListGroup.Item>)}
+                                <>
+                                    <SingleReview comData={comData} fetchComments={this.fetchComments} />
+                                </>
+                            )}
                         </ListGroup>
                     }
                 </Card>
