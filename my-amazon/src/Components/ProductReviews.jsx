@@ -1,12 +1,14 @@
 import { Component } from "react";
 import { Card, ListGroup, Button } from 'react-bootstrap'
-// import ReviewModal from "./ReviewModal";
+import ReviewModal from "./ReviewModal";
 import SingleReview from "./SingleReview";
 
 class ProductReviews extends Component {
     state = {  
         comments: [],
-        isLoading: true
+        isLoading: true,
+        show: false,
+        modalCreate: true
     }
 
     fetchComments = async () => {
@@ -23,7 +25,7 @@ class ProductReviews extends Component {
                 ...this.state,
                 comments: commentsList,
                 isLoading: false,
-                show: false
+                // show: false
             })
         } catch (error) {
             console.log(error)
@@ -54,7 +56,7 @@ class ProductReviews extends Component {
                 <Card className='mb-5' >
                     <div>
                         <h2 className='my-3'>Reviews</h2>
-                        <Button variant="secondary" >
+                        <Button variant="secondary" onClick={this.handleShow}>
                             Add Review
                         </Button>
                     </div>
@@ -69,6 +71,7 @@ class ProductReviews extends Component {
                         </ListGroup>
                     }
                 </Card>
+                <ReviewModal show={this.state.show} handleClose={this.handleClose} handleShow={this.handleShow} fetchComments={this.fetchComments} modalCreate={this.state.modalCreate} productID={this.props.productId}/>
             </>
         );
     }

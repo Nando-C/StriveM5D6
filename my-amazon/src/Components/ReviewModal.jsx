@@ -3,16 +3,20 @@ import { Modal, Button, Form, Row } from "react-bootstrap"
 
 class ReviewModal extends Component {
     state = {  
-       
+        _id: "", //SERVER GENERATED
+        comment: "", //REQUIRED
+        rate: 1, //REQUIRED
+        productId: "", //REQUIRED
+        createdAt: "" // SERVER GENERATED
     }
 
     componentDidMount = () => {
         this.setState({
-            _id: this.props.commentData._id, //SERVER GENERATED
-            comment: this.props.commentData.comment, //REQUIRED
-            rate: this.props.commentData.rate, //REQUIRED
-            productId: this.props.commentData.productId, //REQUIRED
-            createdAt: this.props.commentData.createdAt // SERVER GENERATED
+            _id: this.props.commentData?._id, //SERVER GENERATED
+            comment: this.props.commentData?.comment, //REQUIRED
+            rate: this.props.commentData?.rate, //REQUIRED
+            productId: this.props.commentData?.productId, //REQUIRED
+            createdAt: this.props.commentData?.createdAt // SERVER GENERATED
         })
     }
 
@@ -23,7 +27,33 @@ class ReviewModal extends Component {
         })
     }
    
-    postComment = async (e) => {
+    createComment = async () => {
+        const productID = this.props.productID
+
+        try {
+            const reviewId = this.state._id
+            console.log(this.state)
+            const response = await fetch(`http://localhost:3001/reviews/post/${productID}`, {
+                method: 'POST',
+                body: JSON.stringify(this.state),
+                headers: {
+                    "Content-type": "application/json"
+                }
+            })
+            if(response.ok) {
+                const modComment = await response.json()
+                console.log(modComment)
+                this.props.fetchComments()
+
+            } else {
+                console.log('Something went wrong!')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    updateComment = async (e) => {
         e.preventDefault() 
 
         try {
@@ -73,10 +103,10 @@ class ReviewModal extends Component {
         return (  
             <Modal show={this.props.show} onHide={this.props.handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>Review</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit = {this.postComment}>
+                    <Form onSubmit = {this.updateComment}>
                         {/* <Form.Group controlId="formBasicEmail">
                             <Form.Label>Name</Form.Label>
                             <Form.Control type="text" placeholder="Enter your name" />
@@ -96,12 +126,20 @@ class ReviewModal extends Component {
                             </Form.Control>
                         </Form.Group>
                         <Row className='justify-content-between mx-1'>
-                            <Button variant="primary" type="submit">
-                                Update
-                            </Button>
-                            <Button variant="danger" onClick={this.deleteComment} >
-                                Delete
-                            </Button>
+                            {this.props.modalCreate
+                                ? <Button variant="primary" onClick={this.createComment} >
+                                    Add Review
+                                </Button>
+                                :
+                                <>
+                                    <Button variant="primary" type="submit">
+                                        Update
+                                    </Button>
+                                    <Button variant="danger" onClick={this.deleteComment} >
+                                        Delete
+                                    </Button>
+                                </>
+                        }
                         </Row>
                     </Form>
                 </Modal.Body>
