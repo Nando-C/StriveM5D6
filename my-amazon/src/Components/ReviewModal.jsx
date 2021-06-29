@@ -31,9 +31,10 @@ class ReviewModal extends Component {
         const productID = this.props.productID
 
         try {
+            const apiURL = process.env.REACT_APP_BE_URL
             const reviewId = this.state._id
             console.log(this.state)
-            const response = await fetch(`http://localhost:3001/reviews/post/${productID}`, {
+            const response = await fetch(`${apiURL}/reviews/post/${productID}`, {
                 method: 'POST',
                 body: JSON.stringify(this.state),
                 headers: {
@@ -57,8 +58,9 @@ class ReviewModal extends Component {
         e.preventDefault() 
 
         try {
+            const apiURL = process.env.REACT_APP_BE_URL
             const reviewId = this.state._id
-            const response = await fetch(`http://localhost:3001/reviews/put/${reviewId}`, {
+            const response = await fetch(`${apiURL}/reviews/put/${reviewId}`, {
                 method: 'PUT',
                 body: JSON.stringify(this.state),
                 headers: {
@@ -81,8 +83,9 @@ class ReviewModal extends Component {
     deleteComment = async () => {
 
         try {
+            const apiURL = process.env.REACT_APP_BE_URL
             const reviewId = this.state._id
-            const response = await fetch(`http://localhost:3001/reviews/delete/${reviewId}`, {
+            const response = await fetch(`${apiURL}/reviews/delete/${reviewId}`, {
                 method: 'DELETE'
             })
             if(response.ok) {

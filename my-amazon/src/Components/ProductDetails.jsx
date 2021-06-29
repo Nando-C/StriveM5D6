@@ -5,12 +5,13 @@ class ProductDetails extends Component {
     state = {  }
 
     componentDidMount = async () => {
+        const apiURL = process.env.REACT_APP_BE_URL
         const productID = this.props.productId
         console.log(this.props.productId)
-        console.log(`http://localhost:3001/products/${productID}`)
+        console.log(`${apiURL}/products/${productID}`)
 
         try {
-            const response = await fetch(`http://localhost:3001/products/${productID}`)
+            const response = await fetch(`${apiURL}/products/${productID}`)
             console.log(response)
             if(response.ok) {
                 const product = await response.json()

@@ -9,7 +9,8 @@ class ProductList extends Component {
 
     componentDidMount = async () => {
         try {
-            const response = await fetch('http://localhost:3001/products')
+            const apiURL = process.env.REACT_APP_BE_URL
+            const response = await fetch(`${apiURL}/products`)
             if(response.ok) {
                 const productsList = await response.json()
                 // console.log(productsList)

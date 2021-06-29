@@ -13,11 +13,12 @@ class ProductReviews extends Component {
 
     fetchComments = async () => {
         const productID = this.props.productId
+        const apiURL = process.env.REACT_APP_BE_URL
         // console.log(this.props.match.params.id)
         // console.log(`http://localhost:3001/products/${productID}`)
     
         try {
-            const respComments = await fetch(`http://localhost:3001/reviews/get/${productID}`)
+            const respComments = await fetch(`${apiURL}/reviews/get/${productID}`)
             const commentsList = await respComments.json()
             console.log(commentsList)
     
