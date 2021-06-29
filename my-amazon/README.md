@@ -1,70 +1,71 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Team Challenge: Marketplace / Amazon Like
 
-## Available Scripts
+ 
 
-In the project directory, you can run:
+You and your team are in charge of creating a Marketplace.
 
-### `npm start`
+ 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Every product in your marketplace is shaped in this way:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+ 
 
-### `npm test`
+    {
+        "_id": "5d318e1a8541744830bef139", //SERVER GENERATED
+        "name": "3310",  //REQUIRED
+        "description": "somthing longer", //REQUIRED
+        "brand": "nokia", //REQUIRED 	  "imageUrl":"https://drop.ndtv.com/TECH/product_database/images/2152017124957PM_635_nokia_3310.jpeg?downsize=*:420&output-quality=80",
+        "price": 100, //REQUIRED
+        "category": "smartphones" //REQUIRED
+        "createdAt": "2019-07-19T09:32:10.535Z", //SERVER GENERATED
+        "updatedAt": "2019-07-19T09:32:10.535Z", //SERVER GENERATED
+    }
+ 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+And the reviews look like this:
 
-### `npm run build`
+ 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+     {
+        "_id": "123455", //SERVER GENERATED
+        "comment": "A good book but definitely I don't like many parts of the plot", //REQUIRED
+        "rate": 3, //REQUIRED, max 5
+        "productId": "5d318e1a8541744830bef139", //REQUIRED
+        "createdAt": "2019-08-01T12:46:45.895Z" // SERVER GENERATED
+    }
+ 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+ 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+BACKEND
 
-### `npm run eject`
+ 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+You are in charge of building the Backend using NodeJS + Express. The backend should include the following features:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+ 
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+CRUD for Products ( /products GET, POST, DELETE, PUT)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+CRUD for Reviews ( /reviews GET, POST, DELETE, PUT)
 
-## Learn More
+Extra method for product's image upload (POST /product/:id/upload)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Add an extra method to get all the reviews of a specific product (GET /products/:id/reviews)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+GET /products?category=book => Filter by category, should return only products belonging to the specified category
 
-### Code Splitting
+ 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+[EXTRA] Connect this app to your previous Marketplace from Module 3 or create a new one in ReactJS
 
-### Analyzing the Bundle Size
+ 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+ 
 
-### Making a Progressive Web App
+NOTE:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+For both Products and Reviews, the field createdAt should be set when adding the current product/review to the list.
+The UpdatedAt should be equal to createdAt on creation and then change for each and every PUT on that very item.
