@@ -32,7 +32,6 @@ class ReviewModal extends Component {
 
         try {
             const apiURL = process.env.REACT_APP_BE_URL
-            const reviewId = this.state._id
             console.log(this.state)
             const response = await fetch(`${apiURL}/reviews/post/${productID}`, {
                 method: 'POST',
