@@ -18,7 +18,7 @@ class ProductReviews extends Component {
         // console.log(`http://localhost:3001/products/${productID}`)
     
         try {
-            const respComments = await fetch(`${apiURL}/reviews/get/${productID}`)
+            const respComments = await fetch(`${apiURL}/products/${productID}/reviews`)
             const commentsList = await respComments.json()
             console.log(commentsList)
     
@@ -66,13 +66,13 @@ class ProductReviews extends Component {
                         : <ListGroup className='mb-5 border-0'>
                             {this.state.comments.map(comData =>
                                 <>
-                                    <SingleReview comData={comData} fetchComments={this.fetchComments} />
+                                    <SingleReview comData={comData} fetchComments={this.fetchComments} productID={this.props.productId} />
                                 </>
                             )}
                         </ListGroup>
                     }
                 </Card>
-                <ReviewModal show={this.state.show} handleClose={this.handleClose} handleShow={this.handleShow} fetchComments={this.fetchComments} modalCreate={this.state.modalCreate} productID={this.props.productId}/>
+                <ReviewModal productID={this.props.productId} show={this.state.show} handleClose={this.handleClose} handleShow={this.handleShow} fetchComments={this.fetchComments} modalCreate={this.state.modalCreate} />
             </>
         );
     }

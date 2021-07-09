@@ -12,10 +12,10 @@ class ProductList extends Component {
             const apiURL = process.env.REACT_APP_BE_URL
             const response = await fetch(`${apiURL}/products`)
             if(response.ok) {
-                const productsList = await response.json()
-                // console.log(productsList)
+                const productsData = await response.json()
+                // console.log(productsData.products)
                 this.setState({
-                    products: productsList
+                    products: productsData.products
                 })
             } else {
                 console.log(response)

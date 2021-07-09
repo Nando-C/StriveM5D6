@@ -28,7 +28,7 @@ class SingleReview extends Component {
                     <Card>
                         <Card.Body>
                             <Card.Text>
-                                " <em>{this.props.comData.comment}</em>"
+                                " <em>{this.props.comData.comment}</em> "
                             </Card.Text>
                             <Card.Text>
                                 Rating: <strong>{this.props.comData.rate}</strong>
@@ -40,7 +40,7 @@ class SingleReview extends Component {
                         </div>
                     </Card>
                 </ListGroup.Item>
-                <ReviewModal show={this.state.show} handleClose={this.handleClose} commentData={this.props.comData} fetchComments={this.props.fetchComments}/>
+                <ReviewModal productID={this.props.productID} show={this.state.show} handleClose={this.handleClose} commentData={this.props.comData} fetchComments={this.props.fetchComments}/>
             </>
         );
     }
