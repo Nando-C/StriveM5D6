@@ -132,11 +132,11 @@ class ReviewModal extends Component {
                             <Form.Control type="text" placeholder="Enter your name" />
                         </Form.Group> */}
                         <Form.Group >
-                            <Form.Label>Example textarea</Form.Label>
+                            <Form.Label>Write a comment</Form.Label>
                             <Form.Control id="comment" as="textarea" rows={3} value={this.state.review.comment} onChange={(e) => this.handleChange(e)}/>
                         </Form.Group>
                         <Form.Group >
-                            <Form.Label>Example select</Form.Label>
+                            <Form.Label>Rating</Form.Label>
                             <Form.Control id="rate" as="select" value={this.state.review.rate} onChange={(e) => this.handleChange(e)} >
                                 <option>Rate this product</option>
                                 <option>1</option>

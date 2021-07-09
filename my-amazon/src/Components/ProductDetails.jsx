@@ -75,7 +75,7 @@ class ProductDetails extends Component {
                             </ListGroup>
                         </Card.Body>
                     </Card>
-                    <ProductModal show={this.state.show} handleShow={this.handleShow} handleClose={this.handleClose} product={this.state?.product} fetchProduct={this.fetchProduct}/>
+                    <ProductModal show={this.state.show} handleShow={this.handleShow} handleClose={this.handleClose} product={this.state?.product} fetchProduct={this.fetchProduct} history={this.props.history} />
                 </>}
             </>
         );

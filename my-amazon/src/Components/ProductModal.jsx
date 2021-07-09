@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import { Modal, Button, Form, Row } from 'react-bootstrap'
 
 class ProductModal extends Component {
@@ -51,12 +51,11 @@ class ProductModal extends Component {
             })
             if(response.ok) {
                 const modComment = await response.json()
-                console.log(modComment)
-                this.props.fetchProduct()
+                // console.log(modComment)
+                this.props.fetchProducts()
                 this.props.handleClose()
-
             } else {
-                console.log('Something went wrong!')
+                console.log('Something went wrong adding a New Product!')
             }
         } catch (error) {
             console.log(error)
@@ -129,6 +128,7 @@ class ProductModal extends Component {
                 console.log(response)
                 // this.props.fetchProduct()
                 this.props.handleClose()
+                this.props.history.push("/")
             } else {
                 console.log('Something went wrong!')
             }
@@ -178,12 +178,11 @@ class ProductModal extends Component {
                                 <Form.File id="image" onChange={(e) => this.editPicture(e)} />
                             </Form.Group >
                             <Row className='justify-content-between mx-1'>
-                            {/* {this.props.modalCreate */}
-                                {/* ?  */}
-                                <Button variant="primary" onClick={this.createProduct} >
-                                    Add Review
-                                </Button>
-                                {/* : */}
+                            {this.props.modalCreate
+                                ?  <Button variant="primary" onClick={this.createProduct} >
+                                        Add Product
+                                    </Button>
+                                :
                                 <>
                                     <Button variant="primary" type="submit">
                                         Update
@@ -192,16 +191,13 @@ class ProductModal extends Component {
                                         Delete
                                     </Button>
                                 </>
-                        {/* } */}
+                            }
                         </Row>
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.props.handleClose}>
                             Close
-                        </Button>
-                        <Button variant="primary" onClick={this.props.handleClose}>
-                            Save Changes
                         </Button>
                     </Modal.Footer>
                 </Modal>
