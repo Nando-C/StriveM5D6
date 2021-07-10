@@ -1,6 +1,6 @@
 import { Component } from "react";
 import SingleProduct from "./SingleProduct";
-import { Row, Button } from 'react-bootstrap'
+import { Row, Button, Col } from 'react-bootstrap'
 import ProductModal from "./ProductModal";
 
 class ProductList extends Component {
@@ -55,8 +55,12 @@ class ProductList extends Component {
                     Add New Product
                 </Button>
             </div>
-                <Row className='my-4 justify-content-between'>
-                    {this.state.products.map(prod => <SingleProduct key={prod._id} product={prod} />)}
+                <Row className='my-4 '>
+                    {this.state.products.map(prod => 
+                        <Col xs={12} md={4} className='py-3'>
+                            <SingleProduct key={prod._id} product={prod} />
+                        </Col>
+                    )}
                 </Row>
                 <ProductModal show={this.state.show} handleShow={this.handleShow} handleClose={this.handleClose} modalCreate={this.state.modalCreate} fetchProducts={this.fetchProducts}/>
             </>

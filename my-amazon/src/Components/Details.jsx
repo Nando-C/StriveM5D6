@@ -9,10 +9,11 @@ class Details extends Component {
     }
 
     render() { 
+        console.log(this.props);
         return (  
             <>
             <Container>
-                <ProductDetails productId={this.state.productId}/>
+                <ProductDetails productId={this.state.productId} history={this.props.history}/>
                 <ProductReviews productId={this.state.productId}/>
             </Container>
             </>

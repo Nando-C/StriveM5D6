@@ -26,15 +26,13 @@ class ProductDetails extends Component {
     fetchProduct = async () => {
         const apiURL = process.env.REACT_APP_BE_URL
         const productID = this.props.productId
-        console.log(this.props.productId)
-        console.log(`${apiURL}/products/${productID}`)
     
         try {
             const response = await fetch(`${apiURL}/products/${productID}`)
-            console.log(response)
+            // console.log(response)
             if(response.ok) {
                 const productData = await response.json()
-                console.log(productData)
+                // console.log(productData)
     
                 this.setState({
                     ...this.state,
@@ -52,6 +50,7 @@ class ProductDetails extends Component {
     }
 
     render() {
+        console.log(this.props);
         return (
             <>
                 <div>

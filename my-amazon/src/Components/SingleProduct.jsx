@@ -19,7 +19,7 @@ class SingleProduct extends Component {
     render() { 
         return (  
             <>
-                <Card className='my-3' style={{ width: '18rem' }}>
+                <Card className=' h-100' >
                     <Link to={"/details/" + this.state.product._id}>
                         <Card.Img variant="top" src={this.state.product.imageUrl} />
                     </Link>
