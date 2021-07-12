@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import { Modal, Button, Form, Row } from 'react-bootstrap'
 
 class ProductModal extends Component {
@@ -9,21 +9,25 @@ class ProductModal extends Component {
             description: "", //REQUIRED
             brand: "", //REQUIRED 	  "imageUrl":"https://drop.ndtv.com/TECH/product_database/images/2152017124957PM_635_nokia_3310.jpeg?downsize=*:420&output-quality=80",
             price: 0, //REQUIRED
-            category: "" //REQUIRED
+            category: "", //REQUIRED
+            imageUrl: "",
             // createdAt: "", //SERVER GENERATED
             // updatedAt: "", //SERVER GENERATED
         },
+        imageFile: '',
     }
 
     componentDidMount = () => {
         this.setState({
+            ...this.state,
             product : {
                 _id: this.props.product?._id, //SERVER GENERATED
                 name: this.props.product?.name,  //REQUIRED
                 description: this.props.product?.description, //REQUIRED
                 brand: this.props.product?.brand, //REQUIRED 
                 price: this.props.product?.price, //REQUIRED
-                category: this.props.product?.category //REQUIRED
+                category: this.props.product?.category, //REQUIRED
+                imageUrl: this.props.product?.imageUrl
             }
         }, () => console.log(this.state)
         )
@@ -31,6 +35,7 @@ class ProductModal extends Component {
 
     inputChange = (e) => {
         this.setState({
+            ...this.state,
             product: {
                 ...this.state.product,
                 [e.target.id]: e.target.value
@@ -38,10 +43,20 @@ class ProductModal extends Component {
         })
     }
 
+    fileInputRef = createRef()
+
+    handleFile = () => {
+      this.fileInputRef.current.click()
+    }
+
     createProduct = async () => {
         try {
             const apiURL = process.env.REACT_APP_BE_URL
             // const productId = this.state.product._id
+
+            const newProductImage = new FormData()
+            newProductImage.append( 'imageUrl', this.state.imageFile )
+
             const response = await fetch(`${apiURL}/products`, {
                 method: 'POST',
                 body: JSON.stringify(this.state.product),
@@ -50,10 +65,22 @@ class ProductModal extends Component {
                 }
             })
             if(response.ok) {
-                const modComment = await response.json()
-                // console.log(modComment)
-                this.props.fetchProducts()
-                this.props.handleClose()
+                const newProduct = await response.json()
+                // console.log(newProduct._id)
+                const responseUpload = await fetch(`${apiURL}/products/${newProduct._id}/uploadImage`, {
+                    method: 'POST',
+                    body: newProductImage,
+                })
+                if(responseUpload.ok) {
+                    const newProdUploaded = await responseUpload.json()
+                    console.log(newProdUploaded);
+
+                    this.props.fetchProducts()
+                    this.setState({product:{}, imageFile:''})
+                    this.props.handleClose()
+                } else {
+                    console.log('Something went wrong uploading new Product Image')
+                }
             } else {
                 console.log('Something went wrong adding a New Product!')
             }
@@ -77,12 +104,26 @@ class ProductModal extends Component {
                 }
             })
             if(response.ok) {
-                const modComment = await response.json()
-                console.log(modComment)
+                if (this.state.imageFile) {
+                    const newProductImage = new FormData()
+                    newProductImage.append('imageUrl', this.state.imageFile)
+
+                    const responseUpload = await fetch(`${apiURL}/products/${productId}/uploadImage`, {
+                        method: 'POST',
+                        body: newProductImage,
+                    })
+                    if(responseUpload.ok) {
+                        const newProdUploaded = await responseUpload.json()
+                        console.log(newProdUploaded);
+                    } else {
+                        console.log('Something went wrong uploading new Product Image')
+                    }
+                }
+                const modProduct = await response.json()
+                console.log(modProduct)
                 this.props.fetchProduct()
                 this.props.handleClose()
-
-
+                
             } else {
                 console.log('Something went wrong!')
             }
@@ -173,10 +214,32 @@ class ProductModal extends Component {
                                     <option>Food</option>
                                 </Form.Control>
                             </Form.Group>
-                            <Form.Group className='my-3'>
-                                <Form.Label className='text-mutted mb-3' size="sm"> Upload New Company Logo</Form.Label>
-                                <Form.File id="image" onChange={(e) => this.editPicture(e)} />
-                            </Form.Group >
+                            <Form.Group className="mt-3">
+                                <Form.Control
+                                    type="file"
+                                    hidden
+                                    ref={this.fileInputRef}
+                                    onChange={e => this.setState({ ...this.state, imageFile: e.currentTarget.files[0] })}
+                                />
+                                <Button variant="dark" className="mr-4" onClick={this.handleFile}>
+                                    Upload Image
+                                </Button>
+                                <Button variant="outline-dark"
+                                    onClick={() => this.setState({ ...this.state, imageFile: "" })}
+                                >
+                                    Reset Image
+                                </Button>
+                                <img
+                                    src={
+                                        this.state.imageFile
+                                            ? URL.createObjectURL(this.state.imageFile)
+                                            : this.state.product.imageUrl || "https://via.placeholder.com/600x600?text=Blog+Image"
+                                    }
+                                    height="200px"
+                                    alt="cover"
+                                    className="d-block mt-4"
+                                />
+                            </Form.Group>
                             <Row className='justify-content-between mx-1'>
                             {this.props.modalCreate
                                 ?  <Button variant="primary" onClick={this.createProduct} >
